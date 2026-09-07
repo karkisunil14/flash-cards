@@ -1,0 +1,38 @@
+footer {
+  margin-top: auto;
+  padding-top: 32px;
+}
+.footer__text {
+  margin: 0;
+  font-size: 16px;
+  color: #00000080;
+}
+
+@media screen and (max-width: 600px) {
+  footer {
+    position: fixed;
+    z-index: 4;
+    left: 20px;
+    right: 20px;
+    bottom: 12px;
+  }
+
+  footer {
+    padding-top: 20px;
+  }
+
+  .footer__text {
+    font-size: 12px;
+  }
+
+  .page_no-mobile-bar footer {
+    position: static;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  footer {
+    left: 20px;
+    right: 20px;
+  }
+}

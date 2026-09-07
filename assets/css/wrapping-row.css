@@ -1,0 +1,31 @@
+.wrapping-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.wrapping-row__display-contents {
+  display: contents;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .wrapping-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .wrapping-row {
+    width: 353px;
+    max-width: 100%;
+  }
+}

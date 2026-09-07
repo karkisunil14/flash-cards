@@ -1,0 +1,111 @@
+.card {
+  width: 325px;
+  height: 205px;
+  border-radius: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow:
+    0 2px 8px #0000001a,
+    -1px 2px 2px #ffffffb2 inset,
+    1px -1px 2px #00000040 inset;
+}
+.card__link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.card__title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.card__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card__count {
+  font-size: 16px;
+  line-height: 1.2;
+}
+.card__btn {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 24px;
+  opacity: 0.5;
+  cursor: pointer;
+  z-index: 2;
+}
+.card__btn:hover {
+  opacity: 1;
+}
+.card__btn_type_delete {
+  background-image: url("../images/delete.svg");
+}
+.card__btn_type_flip {
+  background-image: url("../images/flip.svg");
+}
+.card_color_green {
+  background-color: #64d583;
+}
+.card_color_blue {
+  background-color: #91a8f9;
+}
+.card_color_pink {
+  background-color: #ee92d7;
+}
+.card_color_purple {
+  background-color: #aa8ef0;
+}
+.card_color_orange {
+  background-color: #ee955e;
+}
+.card_color_yellow {
+  background-color: #f5d770;
+}
+.card_color_white {
+  background-color: #fff;
+}
+
+@media screen and (max-width: 600px) {
+  .card {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 353 / 140;
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .card__title {
+    font-size: 16px;
+  }
+
+  .card__count {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .card {
+    width: 353px;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 353 / 140;
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .card__title {
+    font-size: 16px;
+  }
+}
