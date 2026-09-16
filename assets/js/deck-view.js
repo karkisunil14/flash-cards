@@ -1,6 +1,12 @@
 import { hexToString, removeColorClasses } from "./colors.js";
 import { openModal } from "./modal.js";
 
+/**
+ * Renders the deck view for a given deck: its title and all of its cards,
+ * each of which can be flipped to show the answer or deleted.
+ *
+ * @param {object} deck - The deck to render
+ */
 function renderDeckView(deck) {
   const view = document.querySelector("#deck-view");
   const title = view.querySelector(".gallery__title");

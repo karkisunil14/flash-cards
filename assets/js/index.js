@@ -1,41 +1,84 @@
-import { decks, getDeckByID } from "./decks.js";
+import { fetchedDecks, getDeckByID, removeDeckByID } from "./decks.js";
 import { hexToString, removeColorClasses } from "./colors.js";
 import { renderCarouselView } from "./carousel.js";
 import { renderDeckView } from "./deck-view.js";
-import { openModal } from "./modal.js";
+import { openModal, showError } from "./modal.js";
+import { disableSubmitBtn } from "./new-deck-view.js";
+import { getDecks, deleteDeck } from "./api.js";
 
 const deckTemplate = document.querySelector("#deck-template");
 const deckList = document.querySelector(".gallery__list");
 const homeView = document.querySelector("#home");
 const deckView = document.querySelector("#deck-view");
+const newDeckView = document.querySelector("#new-deck-view");
 const notFoundView = document.querySelector("#not-found");
+const aboutView = document.querySelector("#about");
 const pageMainContent = document.querySelector(".page__main-content");
 const carouselView = document.querySelector(".carousel");
 const page = document.querySelector(".page");
 const practiceButton = deckView.querySelector(".gallery__practice-btn");
+const allViews = [homeView, deckView, newDeckView, notFoundView, carouselView, aboutView];
 let currentDeck = null;
 
+/**
+ * Hides every view and shows only the given one.
+ *
+ * @param {HTMLElement} view - The view element to show
+ */
+function showView(view) {
+  allViews.forEach((v) => {
+    v.style.display = "none";
+  });
+  view.style.display = "block";
+}
+
+/**
+ * Shows the home view listing every deck.
+ */
 function renderHomeView() {
-  homeView.style.display = "block";
-  deckView.style.display = "none";
-  carouselView.style.display = "none";
-  notFoundView.style.display = "none";
+  showView(homeView);
   page.classList.remove("page_no-mobile-bar");
 }
 
-function renderNotFoundView() {
-  homeView.style.display = "none";
-  deckView.style.display = "none";
-  carouselView.style.display = "none";
-  notFoundView.style.display = "block";
+/**
+ * Shows the new deck form view.
+ */
+function renderNewDeckView() {
+  showView(newDeckView);
   page.classList.add("page_no-mobile-bar");
 }
 
+/**
+ * Shows the not-found view for unmatched routes.
+ */
+function renderNotFoundView() {
+  showView(notFoundView);
+  page.classList.add("page_no-mobile-bar");
+}
+
+/**
+ * Shows the about view describing the app.
+ */
+function renderAboutView() {
+  showView(aboutView);
+  page.classList.add("page_no-mobile-bar");
+}
+
+/**
+ * Reads the current URL hash and shows the matching view.
+ */
 function router() {
   const hash = window.location.hash.slice(1) || "home";
 
   if (hash === "home") {
     renderHomeView();
+    pageMainContent.classList.remove("page__main-content_location_carousel");
+  } else if (hash === "new-deck") {
+    renderNewDeckView();
+    disableSubmitBtn();
+    pageMainContent.classList.remove("page__main-content_location_carousel");
+  } else if (hash === "about") {
+    renderAboutView();
     pageMainContent.classList.remove("page__main-content_location_carousel");
   } else if (hash.startsWith("carousel/")) {
     const id = hash.split("/")[1];
@@ -47,9 +90,7 @@ function router() {
       return;
     }
 
-    homeView.style.display = "none";
-    deckView.style.display = "none";
-    notFoundView.style.display = "none";
+    showView(carouselView);
     carouselView.style.display = "flex";
     renderCarouselView(routeDeck);
     pageMainContent.classList.add("page__main-content_location_carousel");
@@ -63,10 +104,7 @@ function router() {
       return;
     }
 
-    homeView.style.display = "none";
-    carouselView.style.display = "none";
-    notFoundView.style.display = "none";
-    deckView.style.display = "block";
+    showView(deckView);
     renderDeckView(currentDeck);
     pageMainContent.classList.remove("page__main-content_location_carousel");
     page.classList.remove("page_no-mobile-bar");
@@ -76,9 +114,14 @@ function router() {
   }
 }
 
-window.addEventListener("DOMContentLoaded", router);
 window.addEventListener("hashchange", router);
 
+/**
+ * Builds a deck card element for the home view and wires up its delete button.
+ *
+ * @param {object} item - The deck to render
+ * @returns {HTMLElement} The deck card element
+ */
 function createDeckEl(item) {
   const deckClone = deckTemplate.content.querySelector(".card").cloneNode(true);
   const deleteEl = deckClone.querySelector(".card__btn_type_delete");
@@ -87,10 +130,19 @@ function createDeckEl(item) {
     `${item.cards.length} cards`;
   const deckLink = deckClone.querySelector(".card__link");
 
-  deckLink.href = `#deck/${item.id}`;
+  deckLink.href = `#deck/${item._id}`;
 
   deleteEl.addEventListener("click", () => {
-    openModal(() => deckClone.remove());
+    openModal(() => {
+      deleteDeck(item._id)
+        .then(() => {
+          removeDeckByID(item._id);
+          deckClone.remove();
+        })
+        .catch(() => {
+          showError("Something went wrong deleting the deck. Please try again.");
+        });
+    });
   });
 
   removeColorClasses(deckClone);
@@ -103,15 +155,38 @@ function createDeckEl(item) {
   return deckClone;
 }
 
+/**
+ * Builds a deck card element and adds it to the top of the deck list.
+ *
+ * @param {object} item - The deck to render
+ */
 function renderDeckEl(item) {
   const newDeck = createDeckEl(item);
   deckList.prepend(newDeck);
 }
 
-decks.forEach(renderDeckEl);
+window.addEventListener("DOMContentLoaded", () => {
+  getDecks()
+    .then((decks) => {
+      fetchedDecks.push(...decks);
+      decks.forEach(renderDeckEl);
+    })
+    .catch(() => {
+      showError("Error fetching decks");
+    })
+    .finally(() => {
+      router();
+    });
+});
 
 practiceButton.addEventListener("click", () => {
   if (currentDeck) {
-    window.location.hash = `#carousel/${currentDeck.id}`;
+    window.location.hash = `#carousel/${currentDeck._id}`;
   }
+});
+
+const newDeckButton = document.querySelector("#home .gallery__new-deck-btn");
+
+newDeckButton.addEventListener("click", () => {
+  window.location.hash = "#new-deck";
 });

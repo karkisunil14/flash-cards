@@ -1,5 +1,11 @@
 import { removeColorClasses, hexToString } from "./colors.js";
 
+/**
+ * Renders the practice carousel for a deck, letting the user step through
+ * its cards one at a time and flip each one to see the answer.
+ *
+ * @param {object} deck - The deck to practice
+ */
 function renderCarouselView(deck) {
   const carousel = document.querySelector(".carousel");
   const title = carousel.querySelector(".carousel__title");
@@ -11,16 +17,33 @@ function renderCarouselView(deck) {
 
   carousel.style.display = "flex";
 
+  /**
+   * Builds the "Deck Name • 1/10" style title shown above the carousel.
+   *
+   * @param {object} deck - The deck being practiced
+   * @param {number} currentIndex - The index of the currently shown card
+   * @returns {string} The formatted title string
+   */
   function getCarouselTitleString(deck, currentIndex) {
     const displayName = deck.name.replace(/^Basic /, "") + " Deck";
     return `${displayName} • ${currentIndex + 1}/${deck.cards.length}`;
   }
 
+  /**
+   * Disables a carousel button and marks it visually disabled.
+   *
+   * @param {HTMLButtonElement} button - The button to disable
+   */
   function disableButton(button) {
     button.disabled = true;
     button.classList.add("carousel__btn_disabled");
   }
 
+  /**
+   * Enables a carousel button and removes its disabled styling.
+   *
+   * @param {HTMLButtonElement} button - The button to enable
+   */
   function enableButton(button) {
     button.disabled = false;
     button.classList.remove("carousel__btn_disabled");
@@ -29,6 +52,10 @@ function renderCarouselView(deck) {
   let currentIndex = 0;
   let showingQuestion = true;
 
+  /**
+   * Updates the carousel's title, card text, color, and arrow states to
+   * match the current card and whether the question or answer is showing.
+   */
   function updateDisplay() {
     const currentCard = deck.cards[currentIndex];
     cardText.textContent = currentCard.question;

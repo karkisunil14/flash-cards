@@ -1,0 +1,159 @@
+.new-deck-view {
+  margin-top: 40px;
+}
+
+.new-deck-view__title {
+  margin: 0 0 40px;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.new-deck-view__form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 670px;
+}
+
+.new-deck-view__legend {
+  margin: 0 0 16px;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.new-deck-view__color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.new-deck-view__color-label {
+  display: flex;
+  cursor: pointer;
+}
+
+.new-deck-view__color-input {
+  appearance: none;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.new-deck-view__color-input_color_green {
+  background-color: #64d583;
+}
+
+.new-deck-view__color-input_color_blue {
+  background-color: #91a8f9;
+}
+
+.new-deck-view__color-input_color_purple {
+  background-color: #aa8ef0;
+}
+
+.new-deck-view__color-input_color_pink {
+  background-color: #ee92d7;
+}
+
+.new-deck-view__color-input_color_orange {
+  background-color: #ee955e;
+}
+
+.new-deck-view__color-input_color_yellow {
+  background-color: #f5d770;
+}
+
+.new-deck-view__color-input:checked {
+  border: 2px solid #1a1a1a33;
+}
+
+.new-deck-view__color-input:hover {
+  opacity: 0.8;
+}
+
+.new-deck-view__color-input:focus {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 2px;
+}
+
+.new-deck-view__field {
+  display: block;
+}
+
+.new-deck-view__label {
+  display: block;
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.new-deck-view__textarea {
+  display: block;
+  width: 100%;
+  min-height: 220px;
+  padding: 16px;
+  box-sizing: border-box;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #1a1a1a80;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  resize: vertical;
+}
+
+.new-deck-view__textarea:hover {
+  border-color: #1a1a1a;
+}
+
+.new-deck-view__textarea:focus {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 2px;
+  color: #1a1a1a;
+}
+
+.new-deck-view__submit-btn {
+  width: 100%;
+  max-width: 220px;
+  height: 48px;
+  border: 0;
+  border-radius: 8px;
+  background-color: #1a1a1a;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.new-deck-view__submit-btn:hover {
+  background: linear-gradient(#1a1a1a, #555);
+  background-blend-mode: overlay;
+  opacity: 0.8;
+}
+
+.new-deck-view__submit-btn:disabled {
+  background: #d0d0d0;
+  color: #1a1a1a80;
+  cursor: not-allowed;
+}
+
+.new-deck-view__submit-btn:focus {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 2px;
+}
+
+@media screen and (max-width: 600px) {
+  .new-deck-view__title {
+    margin-bottom: 12px;
+    font-size: 32px;
+  }
+}
