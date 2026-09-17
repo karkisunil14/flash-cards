@@ -1,7 +1,11 @@
 ## Project Pitch Video
 
-Check out [this video] https://drive.google.com/file/d/1EMaw3V74wAU3oxHygsO0s6HV13yDvMCt/view?usp=sharing , where I describe my
+Check out [this video] https://drive.google.com/file/d/1KrH0ldB0t4sXRUSeDasH8pMvwJPkGpwh/view?usp=sharing , where I describe my
 project and some challenges I faced while building it.
+
+## Sprint Recap
+
+This sprint I connected my flashcards app to a real backend instead of just using local state, so decks and cards now get saved through the flash cards API and stick around after refreshing the page. I also added an error modal so that if something goes wrong with the server or a form, the user actually sees a message instead of the app just silently failing. On top of that, I added confirmation modals before deleting a deck or card so people don't lose their stuff by accident, and I went back through my code to add JSDoc comments to every named function so it's easier to follow. It took some trial and error getting the API calls and error handling to work smoothly together, but I'm happy with how much more solid the app feels now.
 
 ## Features
 
