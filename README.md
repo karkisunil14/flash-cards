@@ -15,7 +15,7 @@ This sprint I connected my flashcards app to a real backend instead of just usin
 - Practice cards in the responsive carousel view.
 - Use the mobile layout with responsive cards and fixed actions.
 - Confirm before deleting a deck or card with the confirmation modal.
-- Decks are stored in a remote database and fetched/created/deleted through the [flash cards API](https://se-flashcards-api.en.tripleten-services.com/api-docs), so changes persist across page reloads.
+- Decks are stored in a remote database and fetched/created/deleted through the
 - Server errors and form validation errors are surfaced through an error modal instead of failing silently.
 - Every named function in the project is documented with JSDoc.
 

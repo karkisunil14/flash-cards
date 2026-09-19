@@ -25,7 +25,7 @@
 
 @media screen and (max-width: 400px) {
   .wrapping-row {
-    width: 353px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 353px;
   }
 }

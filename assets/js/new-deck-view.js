@@ -99,7 +99,9 @@ form.addEventListener("submit", (e) => {
       fetchedDecks.push(newDeck);
       window.location.hash = "deck/" + newDeck._id;
     })
-    .catch(showError);
+    .catch((err) => {
+      showError(err.message);
+    });
 });
 
 export { disableSubmitBtn };

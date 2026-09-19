@@ -20,12 +20,23 @@ function processResponse(res) {
 }
 
 /**
+ * Fetches a URL and parses the response, rejecting if the request failed.
+ *
+ * @param {string} url - The URL to fetch
+ * @param {object} [options] - Options to pass to fetch
+ * @returns {Promise<any>} A promise that resolves with the parsed JSON body
+ */
+function request(url, options) {
+  return fetch(url, options).then(processResponse);
+}
+
+/**
  * Fetches every deck belonging to the current user.
  *
  * @returns {Promise<object[]>} A promise that resolves with the array of decks
  */
 function getDecks() {
-  return fetch(`${baseUrl}/decks`, { headers, cache: "no-store" }).then(processResponse);
+  return request(`${baseUrl}/decks`, { headers, cache: "no-store" });
 }
 
 /**
@@ -38,11 +49,11 @@ function getDecks() {
  * @returns {Promise<object>} A promise that resolves with the newly created deck
  */
 function addDeck({ name, color, cards }) {
-  return fetch(`${baseUrl}/decks`, {
+  return request(`${baseUrl}/decks`, {
     method: "POST",
     headers,
     body: JSON.stringify({ name, color, cards }),
-  }).then(processResponse);
+  });
 }
 
 /**
@@ -52,10 +63,23 @@ function addDeck({ name, color, cards }) {
  * @returns {Promise<object>} A promise that resolves with the server's confirmation message
  */
 function deleteDeck(deckId) {
-  return fetch(`${baseUrl}/decks/${deckId}`, {
+  return request(`${baseUrl}/decks/${deckId}`, {
     method: "DELETE",
     headers,
-  }).then(processResponse);
+  });
 }
 
-export { getDecks, addDeck, deleteDeck };
+/**
+ * Deletes a card by its ID.
+ *
+ * @param {string} cardId - The ID of the card to delete
+ * @returns {Promise<object>} A promise that resolves with the server's confirmation message
+ */
+function deleteCard(cardId) {
+  return request(`${baseUrl}/cards/${cardId}`, {
+    method: "DELETE",
+    headers,
+  });
+}
+
+export { getDecks, addDeck, deleteDeck, deleteCard };

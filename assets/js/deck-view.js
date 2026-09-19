@@ -1,5 +1,6 @@
 import { hexToString, removeColorClasses } from "./colors.js";
-import { openModal } from "./modal.js";
+import { openModal, showError } from "./modal.js";
+import { deleteCard } from "./api.js";
 
 /**
  * Renders the deck view for a given deck: its title and all of its cards,
@@ -38,7 +39,17 @@ function renderDeckView(deck) {
     };
 
     deleteButton.onclick = () => {
-      openModal(() => card.remove());
+      openModal(() => {
+        deleteCard(item._id)
+          .then(() => {
+            const cardIndex = deck.cards.indexOf(item);
+            deck.cards.splice(cardIndex, 1);
+            card.remove();
+          })
+          .catch(() => {
+            showError("Something went wrong deleting the card. Please try again.");
+          });
+      });
     };
 
     removeColorClasses(card);
